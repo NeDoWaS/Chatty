@@ -24,6 +24,43 @@ namespace ChattyServer
             UserName = _packetReader.ReadMessage();
 
             Console.WriteLine($"UserName: [ {UserName} ] kliyent konnect. Time: {DateTime.Now}");
+
+            Task.Run (() => Process());
+        }
+
+        void Process()
+        {
+            while (true)
+            {
+                try
+                {
+                    var opcode = _packetReader.ReadByte();
+                    switch (opcode)
+                    {
+                        case 5:
+                            var message = _packetReader.ReadMessage();
+                            Console.WriteLine($"Time: [{DateTime.Now}] Username: ({UserName}). Message recieved, content: \"{message}\"");
+                            Program.BroadcastMessage($"[{DateTime.Now}] - [{UserName}]: {message}");
+                            break;
+
+                        case 10:
+                            Program.BroadcastDisconnectMessage(UID.ToString()); 
+                            break;
+
+                        default:
+                            Console.WriteLine("Ya upal... \n Chto to slomalos...");
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Random rnd = new Random();
+                    Console.WriteLine($"User {UID.ToString()} has been taken to the dark alley and shot in the back {rnd.Next(0,100)} times");
+                    Program.BroadcastDisconnectMessage(UID.ToString());
+                    ClientSocket.Close();
+                    break;
+                }
+            }
         }
     }
 }
