@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using ChattyClient.Net;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -18,6 +19,34 @@ namespace Chatty
         public MainWindow()
         {
             InitializeComponent();
+        }
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Application.Current.MainWindow.DragMove();
+            }
+        }
+
+        /// navbar commands, minimize, maximize, close
+        private void CloseCommand(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Close();
+        }
+
+        private void MinimizeCommand(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.WindowState = WindowState.Minimized;
+
+        }
+        private void MaximizeCommand(object sender, RoutedEventArgs e)
+        {
+            if(Application.Current.MainWindow.WindowState == WindowState.Maximized)
+
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+            else
+                Application.Current.MainWindow.WindowState = WindowState.Maximized;
+
         }
     }
 }

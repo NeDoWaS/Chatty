@@ -4,9 +4,10 @@ using ChattyClient.Net;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Linq;
+using System.Text;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ChattyClient.MVM.ViewModel
 {
@@ -32,10 +33,13 @@ namespace ChattyClient.MVM.ViewModel
             _server.msgRecievedEvent += MessageRecueved;
             _server.usrDisconnectedEvent += UserDisconnected;
 
-            ConnectToServerCommand = new RelayCommand(o => _server.ConnectToServer(Username), o=> !string.IsNullOrEmpty(Username));
+            ConnectToServerCommand = new RelayCommand(o => _server.ConnectToServer(Username), o => !string.IsNullOrEmpty(Username));
 
             SendMessageCommand = new RelayCommand(o => _server.SendMessageToServer(Message), o => !string.IsNullOrEmpty(Message));
         }
+
+
+
 
         private void UserConnected()
         {
@@ -62,6 +66,5 @@ namespace ChattyClient.MVM.ViewModel
             var msg = _server.PacketReader.ReadString();
             Application.Current.Dispatcher.Invoke(() => Messages.Add(msg));
         }
-
     }
 }

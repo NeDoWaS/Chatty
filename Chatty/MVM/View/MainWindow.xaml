@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:Chatty"
         xmlns:viewmodel="clr-namespace:ChattyClient.MVM.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="470" Width="820">
+        Height="650" Width="1200"
+        Background="#2b2b2b"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip">
     <Window.DataContext>
         <viewmodel:MainViewModel />
     </Window.DataContext>
@@ -17,15 +21,72 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <DockPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.ColumnSpan="2"
+                MouseDown="Border_MouseDown"
+                BorderBrush="#3c3c3c"
+                BorderThickness="0,0,0,1">
+            <Grid HorizontalAlignment="Stretch">
+                <Label Content="Chatty"
+                       
+                       FontSize="14"
+                       FontWeight="Bold"
+                       FontFamily="Comic Sans MS"
+                       Foreground="#e0e0e0"
+                       VerticalAlignment="Center"
+                       Margin="10,0,0,0"/>
+
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Right">
+                    <Button Content="__"
+                            Background="Transparent"
+                            Foreground="Gray"
+                            BorderThickness="0"
+                            FontWeight="Bold"
+                            Height="25" 
+                            Width="25"
+                            Margin="0,0,0,5"
+                            Click="MinimizeCommand"/>
+                    <Button Content="_▢"
+                            Background="Transparent"
+                            Foreground="Gray"
+                            BorderThickness="0"
+                            Height="25" 
+                            Width="25"
+                            FontWeight="Black"
+                            Click="MaximizeCommand"
+                            Margin="3, 0"/>
+                    <Button Content="_✕"
+                            Background="Transparent"
+                            Foreground="Gray"
+                            BorderThickness="0"
+                            Height="25" 
+                            Width="25"
+                            Margin="3,0"
+                            Click="CloseCommand"/>
+
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <DockPanel Grid.Row="1" 
+                   Background="Gray">
             <TextBox Height="25" 
                      DockPanel.Dock="Top"
+                     Background="Transparent"
                      Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Height="25" 
+                    Background="Transparent"
                     DockPanel.Dock="Top"
                     Content="Connect"
                     Command="{Binding ConnectToServerCommand}"/>
-            <ListView ItemsSource="{Binding Users}">
+            <ListView ItemsSource="{Binding Users}" 
+                      
+                     Background="Transparent">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Username}"/>
@@ -34,7 +95,8 @@
             </ListView>
         </DockPanel>
 
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="1"
+                    Grid.Row="1">
             <ListView Height="380"
                       ItemsSource="{Binding Messages}"/>
             <StackPanel Orientation="Horizontal">
